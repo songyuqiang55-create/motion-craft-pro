@@ -1,0 +1,135 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MotionCraftStoryboard",
+  "type": "object",
+  "required": [
+    "version",
+    "meta",
+    "beats"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "2.0.0"
+    },
+    "meta": {
+      "type": "object",
+      "required": [
+        "title",
+        "width",
+        "height",
+        "fps",
+        "duration"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "width": {
+          "type": "integer",
+          "enum": [
+            1920,
+            1440,
+            1080
+          ]
+        },
+        "height": {
+          "type": "integer"
+        },
+        "fps": {
+          "type": "integer",
+          "default": 30
+        },
+        "duration": {
+          "type": "number",
+          "minimum": 1
+        },
+        "voice": {
+          "type": "string"
+        },
+        "rate": {
+          "type": "string"
+        },
+        "accent": {
+          "type": "string"
+        },
+        "narration": {
+          "type": "string",
+          "description": "Full VO script"
+        }
+      }
+    },
+    "captions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "start",
+          "end",
+          "text"
+        ],
+        "properties": {
+          "start": {
+            "type": "number"
+          },
+          "end": {
+            "type": "number"
+          },
+          "text": {
+            "type": "string"
+          },
+          "words": {
+            "type": "array"
+          }
+        }
+      }
+    },
+    "beats": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "start",
+          "end",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "start": {
+            "type": "number"
+          },
+          "end": {
+            "type": "number"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "TitleBeat",
+              "BulletReveal",
+              "StatCounter",
+              "CompareBars",
+              "QuoteCard",
+              "EndCard",
+              "title",
+              "bullets",
+              "stat",
+              "compare",
+              "quote",
+              "end"
+            ]
+          },
+          "copy": {
+            "type": "object"
+          },
+          "visual": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

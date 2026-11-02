@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>Motion Craft Pro · Claude Aesthetic Demo</title>
+<style>
+  html,body{margin:0;padding:0;background:#08090c;overflow:hidden}
+  canvas{display:block}
+</style>
+</head>
+<body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<script src="engine.js"></script>
+<script src="scenes.js"></script>
+<script>
+/* ============================================================
+ * Motion Craft Pro demo — Claude Opus aesthetic
+ * Calm · editorial · generous whitespace · subtle spring
+ * Driven by inline storyboard (also mirrored in storyboard.json)
+ * ============================================================ */
+const W = 1920, H = 1080, FPS = 30, DURATION = 18.0;
+const cv = document.getElementById('c');
+const ctx = cv.getContext('2d');
+const {
+  Ease, seg, lerp, clamp01, spring, springSeg, beatAlpha,
+  glow, beam, drawBackdrop, createParticles, drawParticles,
+  drawGrain, drawVignette, drawColorGrade,
+  drawTracked, camera, divider, drawCaptions, layoutGrid,
+  FONT_STACK, Palette
+} = MC;
+const { drawScene } = MCScenes;
+
+const STORYBOARD = {
+  version: '2.0.0',
+  meta: { title: '克制，才是高级感', width: W, height: H, fps: FPS, duration: DURATION },
+  captions: [
+    { start: 0.4, end: 3.2, text: '高级动效，不靠堆特效' },
+    { start: 3.4, end: 7.0, text: '克制的留白 · 精确的字距 · 轻微回弹' },
+    { start: 7.2, end: 10.8, text: '每一帧，都能单独成海报' },
+    { start: 11.0, end: 14.5, text: '先分镜，再配音，再定时间轴' },
+    { start: 14.7, end: 17.5, text: '一屏，只讲一件事' }
+  ],
+  beats: [
+    {
+      id: 'hook', start: 0.0, end: 3.6, type: 'TitleBeat',
+      copy: {
+        label: 'MOTION CRAFT PRO ／ 审美',
+        title: '克制，才是高级感',
+        sub: '对标 Claude 式代码动效：冷静、留白、精确'
+      },
+      visual: { right: 'softOrb' }
+    },
+    {
+      id: 'principles', start: 3.6, end: 8.2, type: 'BulletReveal',
+      copy: {
+        label: '三条原则',
+        items: [
+          { k: '01', title: '留白', desc: '外边距 ≥ 短边 8%，宁空勿塞' },
+          { k: '02', title: '字距', desc: '标题加 tracking，层次拉开 1.5×' },
+          { k: '03', title: '弹簧', desc: '轻微 overshoot，禁止满屏弹跳' }
+        ]
+      },
+      visual: { right: 'rings' }
+    },
+    {
+      id: 'stat', start: 8.2, end: 11.6, type: 'StatCounter',
+      copy: { label: '质量门槛', value: 90, suffix: '%', caption: '截帧可传播 · 音画对齐 · 1080p 交付' },
+      visual: { from: 0 }
+    },
+    {
+      id: 'compare', start: 11.6, end: 14.8, type: 'CompareBars',
+      copy: {
+        label: '差距在哪',
+        title: '管线，不是模型',
+        items: [
+          { label: '色块补间', value: 35 },
+          { label: '导演栈', value: 90 }
+        ],
+        note: '分镜 JSON → TTS → 静帧质检 → 渲染'
+      }
+    },
+    {
+      id: 'quote', start: 14.8, end: 16.6, type: 'QuoteCard',
+      copy: { quote: '一屏，只讲一件事。', attribution: '动效工坊 Pro · 导演准则' }
+    },
+    {
+      id: 'end', start: 16.6, end: 18.0, type: 'EndCard',
+      copy: {
+        title: '先想清楚，再动起来',
+        sub: 'Storyboard → TTS → Stills → Render',
+        brand: 'MOTION CRAFT PRO'
+      }
+    }
+  ]
+};
+
+const L = layoutGrid(W, H);
+const particles = createParticles(160, W, H, { seed: 42042, hueRange: [28, 42], sizeRange: [0.4, 2.0] });
+
+function drawRightVisual(t) {
+  const cx = L.colR + L.colRW / 2;
+  const cy = H * 0.50;
+
+  // soft orb during TitleBeat
+  const b0 = STORYBOARD.beats[0];
+  const a0 = beatAlpha(t, b0.start, b0.end, 0.5, 0.55);
+  if (a0 > 0) {
+    const p = springSeg(t, b0.start + 0.15, b0.start + 1.4, { damping: 16, stiffness: 120 });
+    ctx.save();
+    ctx.globalAlpha = a0;
+    const r = 130 * p;
+    glow(ctx, cx, cy, r * 3.0, Palette.accent, 0.22 * p, 0.24);
+    const core = ctx.createRadialGradient(cx - r * 0.25, cy - r * 0.25, 0, cx, cy, r);
+    core.addColorStop(0, '#fff8ec');
+    core.addColorStop(0.4, Palette.accentSoft);
+    core.addColorStop(1, 'rgba(196,165,116,0)');
+    ctx.fillStyle = core;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  // rings during BulletReveal
+  const b1 = STORYBOARD.beats[1];
+  const a1 = beatAlpha(t, b1.start, b1.end, 0.4, 0.5);
+  if (a1 > 0) {
+    const p = Ease.outCubic(seg(t, b1.start, b1.start + 1.0));
+    ctx.save();
+    ctx.globalAlpha = a1;
+    const radii = [100, 168, 236];
+    for (let i = 0; i < 3; i++) {
+      const rp = Ease.outCubic(clamp01((p - i * 0.18) / 0.55));
+      if (rp <= 0) continue;
+      const rot = t * (0.08 + i * 0.03) * (i % 2 ? -1 : 1);
+      ctx.beginPath();
+      ctx.arc(cx, cy, radii[i] * rp, rot, rot + Math.PI * 1.4);
+      ctx.strokeStyle = i === 0 ? 'rgba(196,165,116,0.55)' : `rgba(244,241,234,${0.22 - i * 0.04})`;
+      ctx.lineWidth = i === 0 ? 2 : 1.2;
+      ctx.lineCap = 'round';
+      ctx.stroke();
+    }
+    glow(ctx, cx, cy, 70, Palette.accent, 0.18 * p, 0.3);
+    ctx.beginPath();
+    ctx.arc(cx, cy, 5, 0, Math.PI * 2);
+    ctx.fillStyle = '#fff6e8';
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+window.renderFrame = function (t) {
+  const T = clamp01(t / DURATION);
+  ctx.clearRect(0, 0, W, H);
+
+  drawBackdrop(ctx, W, H);
+
+  // gentle camera push — editorial, not dramatic
+  const camScale = 1 + Ease.inOutSine(T) * 0.04;
+  const camX = -Ease.inOutSine(T) * 6;
+
+  camera(ctx, W, H, { scale: camScale, x: camX, y: 0 }, () => {
+    // restrained lighting
+    const pulse = 0.5 + 0.5 * Math.sin(t * 0.45);
+    glow(ctx, W * 0.74, H * 0.38, 580 + pulse * 40, Palette.accent, 0.07 + pulse * 0.025, 0.32);
+    glow(ctx, W * 0.14, H * 0.82, 480, Palette.cool, 0.06, 0.42);
+    beam(ctx, W * 0.72, H * 0.05, 860, 220, Math.sin(t * 0.15) * 0.04 - 0.03, Palette.accent, 0.35);
+
+    drawParticles(ctx, particles, t, W, H, { driftY: 0.45, twinkle: 0.25 });
+
+    drawRightVisual(t);
+
+    // scenes from storyboard
+    for (const beat of STORYBOARD.beats) {
+      // skip right-heavy visuals for centered scenes
+      drawScene(ctx, W, H, t, beat, L);
+    }
+
+    // brand footer
+    ctx.save();
+    ctx.globalAlpha = 0.4;
+    ctx.font = `500 16px ${FONT_STACK}`;
+    drawTracked(ctx, 'MOTION CRAFT PRO', W - L.M, H - 48, {
+      tracking: 4, fill: Palette.inkFaint, align: 'right'
+    });
+    ctx.restore();
+  });
+
+  drawCaptions(ctx, W, H, t, STORYBOARD.captions, { fontSize: 26 });
+
+  drawColorGrade(ctx, W, H, { warm: 0.03, cool: 0.022 });
+  drawVignette(ctx, W, H, 0.46);
+  drawGrain(ctx, W, H, Math.floor(t * FPS), 0.02, 1.0);
+
+  // soft bookends
+  const fadeIn = 1 - seg(t, 0, 0.7);
+  const fadeOut = seg(t, DURATION - 0.8, DURATION);
+  const fade = Math.max(fadeIn, fadeOut);
+  if (fade > 0) {
+    ctx.fillStyle = `rgba(8,9,12,${fade})`;
+    ctx.fillRect(0, 0, W, H);
+  }
+};
+
+window.__ready = true;
+window.__DURATION = DURATION;
+window.__FPS = FPS;
+window.__STORYBOARD = STORYBOARD;
+renderFrame(0);
+</script>
+</body>
+</html>

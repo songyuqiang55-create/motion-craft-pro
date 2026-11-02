@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.Python
+
+# Render / smoke outputs
+frames/
+**/frames/
+smoke/
+**/smoke/
+out/
+**/out/
+*.mp4
+*.mov
+*.webm
+*.wav
+*.mp3
+!docs/assets/**
+
+# Captions / temp
+captions.json
+captions.vtt
+voice.mp3
+*.log
+.DS_Store
+Thumbs.db
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+
+# Local build scratch (keep dist/ & releases/ committed for WorkBuddy uploads)
+.tmp/
+tmp/

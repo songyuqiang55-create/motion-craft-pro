@@ -1,0 +1,64 @@
+{
+  "name": "motion-director",
+  "version": "2.0.0",
+  "description": "Motion Craft Pro — Claude Opus 5.5–aligned programmatic motion graphics: storyboard-first, spring easing, scene helpers, Edge TTS captions, 1080p Canvas.",
+  "author": {
+    "name": "WorkBuddy User",
+    "email": "user@workbuddy.local"
+  },
+  "agents": [
+    "./agents/motion-director.md"
+  ],
+  "skills": [
+    "./skills/motion-craft"
+  ],
+  "expertType": "agent",
+  "agentName": "motion-director",
+  "displayName": {
+    "en": "Motion Craft Pro",
+    "zh": "动效工坊 Pro"
+  },
+  "profession": {
+    "zh": "程序化动效导演",
+    "en": "Programmatic Motion Director"
+  },
+  "displayDescription": {
+    "en": "Claude Opus 5.5–aligned motion graphics: storyboard → TTS → stills QA → 1080p. Spring, six scenes, captions. Not photoreal AI video.",
+    "zh": "对标 Claude Opus 5.5 代码动效审美：分镜 → TTS → 静帧质检 → 1080p。Spring、六场景、字幕时间轴。不是写实 AI 视频。"
+  },
+  "avatar": "avatars/expert.png",
+  "categoryId": "06-ContentCreative",
+  "defaultInitPrompt": {
+    "zh": "按 Claude 审美做一条 16:9 动效短片，讲克制才是高级感",
+    "en": "Claude-aesthetic 16:9 short on why restraint looks premium"
+  },
+  "plugin": "motion-director",
+  "tags": [
+    {
+      "en": "Motion Graphics",
+      "zh": "动效视频"
+    },
+    {
+      "en": "Storyboard First",
+      "zh": "分镜优先"
+    },
+    {
+      "en": "Claude Aesthetic",
+      "zh": "Claude 审美"
+    }
+  ],
+  "quickPrompts": [
+    {
+      "zh": "按 Claude 审美做一条 16:9 动效短片，讲克制才是高级感",
+      "en": "Claude-aesthetic 16:9 short on why restraint looks premium"
+    },
+    {
+      "zh": "把文案写成 storyboard.json，再配音、抽静帧、渲染 1080p",
+      "en": "Write storyboard.json, TTS, stills QA, then 1080p render"
+    },
+    {
+      "zh": "用 TitleBeat、StatCounter、EndCard 做产品发布片，要字幕",
+      "en": "Launch film with TitleBeat, StatCounter, EndCard and captions"
+    }
+  ]
+}

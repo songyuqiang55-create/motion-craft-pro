@@ -1,0 +1,143 @@
+{
+  "version": "2.0.0",
+  "meta": {
+    "title": "克制，才是高级感",
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "duration": 18.0,
+    "voice": "zh-CN-YunxiNeural",
+    "rate": "-6%",
+    "accent": "#c4a574",
+    "narration": "高级动效，不靠堆特效。克制的留白、精确的字距、轻微的弹簧回弹，让每一帧都能单独成海报。先分镜，再配音，再定时间轴。一屏只讲一件事。"
+  },
+  "captions": [
+    {
+      "start": 0.4,
+      "end": 3.2,
+      "text": "高级动效，不靠堆特效"
+    },
+    {
+      "start": 3.4,
+      "end": 7.0,
+      "text": "克制的留白 · 精确的字距 · 轻微回弹"
+    },
+    {
+      "start": 7.2,
+      "end": 10.8,
+      "text": "每一帧，都能单独成海报"
+    },
+    {
+      "start": 11.0,
+      "end": 14.5,
+      "text": "先分镜，再配音，再定时间轴"
+    },
+    {
+      "start": 14.7,
+      "end": 17.5,
+      "text": "一屏，只讲一件事"
+    }
+  ],
+  "beats": [
+    {
+      "id": "hook",
+      "start": 0.0,
+      "end": 3.6,
+      "type": "TitleBeat",
+      "copy": {
+        "label": "MOTION CRAFT PRO ／ 审美",
+        "title": "克制，才是高级感",
+        "sub": "对标 Claude 式代码动效：冷静、留白、精确"
+      },
+      "visual": {
+        "right": "softOrb"
+      }
+    },
+    {
+      "id": "principles",
+      "start": 3.6,
+      "end": 8.2,
+      "type": "BulletReveal",
+      "copy": {
+        "label": "三条原则",
+        "items": [
+          {
+            "k": "01",
+            "title": "留白",
+            "desc": "外边距 ≥ 短边 8%，宁空勿塞"
+          },
+          {
+            "k": "02",
+            "title": "字距",
+            "desc": "标题加 tracking，层次拉开 1.5×"
+          },
+          {
+            "k": "03",
+            "title": "弹簧",
+            "desc": "轻微 overshoot，禁止满屏弹跳"
+          }
+        ]
+      },
+      "visual": {
+        "right": "rings"
+      }
+    },
+    {
+      "id": "stat",
+      "start": 8.2,
+      "end": 11.6,
+      "type": "StatCounter",
+      "copy": {
+        "label": "质量门槛",
+        "value": 90,
+        "suffix": "%",
+        "caption": "截帧可传播 · 音画对齐 · 1080p 交付"
+      },
+      "visual": {
+        "from": 0
+      }
+    },
+    {
+      "id": "compare",
+      "start": 11.6,
+      "end": 14.8,
+      "type": "CompareBars",
+      "copy": {
+        "label": "差距在哪",
+        "title": "管线，不是模型",
+        "items": [
+          {
+            "label": "色块补间",
+            "value": 35
+          },
+          {
+            "label": "导演栈",
+            "value": 90
+          }
+        ],
+        "note": "分镜 JSON → TTS → 静帧质检 → 渲染"
+      }
+    },
+    {
+      "id": "quote",
+      "start": 14.8,
+      "end": 16.6,
+      "type": "QuoteCard",
+      "copy": {
+        "quote": "一屏，只讲一件事。",
+        "attribution": "动效工坊 Pro · 导演准则"
+      }
+    },
+    {
+      "id": "end",
+      "start": 16.6,
+      "end": 18.0,
+      "type": "EndCard",
+      "copy": {
+        "title": "先想清楚，再动起来",
+        "sub": "Storyboard → TTS → Stills → Render",
+        "brand": "MOTION CRAFT PRO"
+      }
+    }
+  ]
+}

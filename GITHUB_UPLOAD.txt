@@ -1,0 +1,105 @@
+════════════════════════════════════════════════════════════
+  动效工坊 Pro · Motion Craft Pro
+  GitHub 开源上传说明（网页拖拽，无需命令行）
+  v2.0.0 · Apache-2.0
+════════════════════════════════════════════════════════════
+
+本压缩包解压后 = 完整仓库根目录。
+你要做的事只有三件：建仓 → 拖文件 → 挂 Release。
+
+────────────────────────────────────────
+一、新建公开仓库
+────────────────────────────────────────
+1. 打开 https://github.com/new
+2. Repository name 建议：motion-craft-pro
+3. 可见性：Public（直接开源）
+4. 不要勾选 Add a README / .gitignore / license
+   （仓库里已经有完整文件，勾了会冲突）
+5. Create repository
+
+────────────────────────────────────────
+二、上传源码（网页拖拽）
+────────────────────────────────────────
+1. 进入空仓库 → 点 “uploading an existing file”
+2. 把解压出来的内容全部拖进去
+   ⚠️ 不要多包一层 motion-craft-pro/ 文件夹
+   ⚠️ zip 根 / 仓库根应直接看到 README.md
+
+   必传清单：
+   - README.md
+   - README.expert.md
+   - LICENSE
+   - CONTRIBUTING.md
+   - GITHUB_UPLOAD.txt
+   - .gitignore
+   - build.py
+   - SKILL.md
+   - .codebuddy-plugin/
+   - agents/
+   - avatars/
+   - skills/
+   - docs/
+   - dist/
+   - releases/
+
+3. Commit message：
+   Initial release · Motion Craft Pro v2.0.0
+   对标 Claude Opus 5.5 代码动效审美
+
+4. Commit changes
+
+────────────────────────────────────────
+三、发布 WorkBuddy 安装包（Releases）
+────────────────────────────────────────
+1. 仓库 → Releases → Create a new release
+2. Tag：v2.0.0
+3. Title：Motion Craft Pro v2.0.0 · 动效工坊 Pro
+4. 描述可粘贴：
+
+   对标 Claude Opus 5.5（克劳德 5.5 最强模型）写代码做动效的审美与工作流。
+   分镜 JSON → Edge TTS → 静帧质检 → 1080p Canvas → FFmpeg。
+   不是写实 AI 视频。Apache-2.0。
+
+   附件：
+   - motion-craft-pro-skill-v2.0.0.zip  → WorkBuddy「技能」页
+   - expert-motion-craft-pro-v2.0.0.zip → WorkBuddy「专家」页
+
+5. 从 dist/ 或 releases/ 上传上述两个 zip
+6. Publish release
+
+────────────────────────────────────────
+四、仓库 About 描述（可直接粘贴）
+────────────────────────────────────────
+中文：
+对标 Claude Opus 5.5 代码动效审美。分镜优先 · Spring · 六场景组件 · 字级字幕 · 1080p Canvas。WorkBuddy 技能/专家可上架。不是写实 AI 视频。
+
+English：
+Claude Opus 5.5–aligned programmatic motion graphics. Storyboard-first, spring easing, six scene helpers, captions, 1080p Canvas. WorkBuddy skill + expert. Not photoreal AI video.
+
+建议 Topics：
+motion-graphics, storyboard, canvas, ffmpeg, edge-tts, workbuddy, claude, apache-2.0
+
+────────────────────────────────────────
+五、别传错包（对照）
+────────────────────────────────────────
+技能页 → motion-craft-pro-skill-v2.0.0.zip
+         name 必须是 motion-craft
+
+专家页 → expert-motion-craft-pro-v2.0.0.zip
+         name = motion-director
+         profession.zh = 程序化动效导演
+         tags 正好 3 个
+         defaultInitPrompt = quickPrompts[0]
+
+完整排错：docs/PUBLISH_WORKBUDDY.md
+完整说明：README.md
+
+────────────────────────────────────────
+六、本地重打包（可选）
+────────────────────────────────────────
+python build.py
+# 输出到 dist/ 与 releases/
+
+════════════════════════════════════════════════════════════
+克制，才是高级感。 · Motion Craft Pro
+════════════════════════════════════════════════════════════
